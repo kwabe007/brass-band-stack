@@ -20,3 +20,4 @@ node_modules
 .idea
 
 /prisma/data.db
+/prisma/data.db-journal
