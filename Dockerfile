@@ -1,52 +1,45 @@
-# base node image
-FROM node:16-bullseye-slim as base
+FROM node:18-bullseye-slim as base
 
-# set for base and all layer that inherit from it
-ENV NODE_ENV production
+ENV NODE_ENV="production"
 
 # Install openssl for Prisma
-RUN apt-get update && apt-get install -y openssl
+RUN apt-get update && apt-get install -y openssl sqlite3
 
-# Install all node_modules, including dev dependencies
-FROM base as deps
-
-WORKDIR /myapp
-
-ADD package.json .npmrc ./
-RUN npm install --production=false
-
-# Setup production node_modules
-FROM base as production-deps
-
-WORKDIR /myapp
-
-COPY --from=deps /myapp/node_modules /myapp/node_modules
-ADD package.json .npmrc ./
-RUN npm prune --production
-
-# Build the app
+# Install dependencies & build
 FROM base as build
 
-WORKDIR /myapp
+WORKDIR /remix-app
 
-COPY --from=deps /myapp/node_modules /myapp/node_modules
+ADD package.json package-lock.json .npmrc ./
 
+# To build the app we need some of the dev dependencies as well
+RUN npm install --production=false
+
+# Create the prisma client
 ADD prisma .
 RUN npx prisma generate
 
 ADD . .
 RUN npm run build
 
-# Finally, build the production image with minimal footprint
+# Remove dev dependencies after finishing build to keep the image size down
+RUN npm prune --production
+
 FROM base
 
-WORKDIR /myapp
+ENV DATABASE_URL=file:/data/sqlite.db
+ENV PORT="8080"
 
-COPY --from=production-deps /myapp/node_modules /myapp/node_modules
-COPY --from=build /myapp/node_modules/.prisma /myapp/node_modules/.prisma
+# Add shortcut for connecting to database CLI
+RUN echo "#!/bin/sh\nset -x\nsqlite3 \$DATABASE_URL" > /usr/local/bin/database-cli && chmod +x /usr/local/bin/database-cli
 
-COPY --from=build /myapp/build /myapp/build
-COPY --from=build /myapp/public /myapp/public
-ADD . .
+WORKDIR /remix-app
 
-CMD ["npm", "start"]
+COPY --from=build /remix-app/node_modules ./node_modules
+COPY --from=build /remix-app/build ./build
+COPY --from=build /remix-app/public ./public
+COPY --from=build /remix-app/prisma ./prisma
+COPY --from=build /remix-app/package.json ./package.json
+COPY --from=build /remix-app/start.sh ./start.sh
+
+ENTRYPOINT ["./start.sh"]
