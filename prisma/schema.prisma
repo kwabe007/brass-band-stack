@@ -10,6 +10,7 @@ generator client {
 model User {
   id    String @id @default(cuid())
   email String @unique
+  role  String @default("MEMBER")
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
