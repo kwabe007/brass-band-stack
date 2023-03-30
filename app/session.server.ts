@@ -63,6 +63,16 @@ export async function requireUser(request: Request) {
   throw await logout(request);
 }
 
+export async function requireAdmin(request: Request) {
+  const user = await requireUser(request);
+  if (user.role !== "ADMIN") {
+    throw new Response("Forbidden", {
+      status: 403
+    });
+  }
+  return user;
+}
+
 export async function createUserSession({
   request,
   userId,
@@ -95,3 +105,4 @@ export async function logout(request: Request) {
     },
   });
 }
+
