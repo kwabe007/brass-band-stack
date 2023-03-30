@@ -32,6 +32,8 @@ RUN echo "#!/bin/sh\nset -x\nsqlite3 \$DATABASE_URL" > /usr/local/bin/database-c
 
 WORKDIR /remix-app
 
+ENV PORT="3000"
+
 COPY --from=build /remix-app/node_modules ./node_modules
 COPY --from=build /remix-app/build ./build
 COPY --from=build /remix-app/public ./public
