@@ -27,9 +27,6 @@ RUN npm prune --production
 
 FROM base
 
-ENV DATABASE_URL=file:/data/sqlite.db
-ENV PORT="8080"
-
 # Add shortcut for connecting to database CLI
 RUN echo "#!/bin/sh\nset -x\nsqlite3 \$DATABASE_URL" > /usr/local/bin/database-cli && chmod +x /usr/local/bin/database-cli
 
