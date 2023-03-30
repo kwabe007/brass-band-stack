@@ -38,6 +38,7 @@ COPY --from=build /remix-app/node_modules ./node_modules
 COPY --from=build /remix-app/build ./build
 COPY --from=build /remix-app/public ./public
 COPY --from=build /remix-app/prisma ./prisma
+COPY --from=build /remix-app/scripts ./scripts
 COPY --from=build /remix-app/package.json ./package.json
 COPY --from=build /remix-app/start.sh ./start.sh
 
