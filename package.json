@@ -7,24 +7,25 @@
     "build:css": "npm run generate:css -- --minify",
     "build:remix": "remix build",
     "build:server": "esbuild --platform=node --format=cjs ./server.ts --outdir=build --bundle",
-    "dev": "run-p dev:*",
-    "dev:build": "cross-env NODE_ENV=development npm run build:server -- --watch",
-    "dev:css": "cross-env NODE_ENV=development npm run generate:css -- --watch",
-    "dev:remix": "cross-env NODE_ENV=development remix watch",
-    "dev:server": "cross-env NODE_ENV=development node --inspect --require ./node_modules/dotenv/config --require ./mocks ./build/server.js",
+    "dev": "cross-env NODE_ENV=development run-p dev:*",
+    "dev:build": "npm run build:server -- --watch",
+    "dev:css": "npm run generate:css -- --watch",
+    "dev:remix": "remix watch",
+    "dev:server": "npm run wait-build && node --require ./mocks --require dotenv/config ./build/server.js",
     "docker": "docker-compose up -d",
     "format": "prettier --write .",
     "generate:css": "tailwindcss -o ./app/styles/tailwind.css",
     "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
     "setup": "prisma generate && prisma migrate deploy && prisma db seed",
     "start": "cross-env NODE_ENV=production node ./build/server.js",
-    "start:mocks": "cross-env NODE_ENV=production node --require ./mocks --require dotenv/config ./build/server.js",
+    "start:staging": "cross-env NODE_ENV=production node --require ./mocks --require dotenv/config ./build/server.js",
     "test": "vitest",
     "test:e2e:dev": "start-server-and-test dev http://localhost:3000 \"npx cypress open\"",
     "pretest:e2e:run": "npm run build",
     "test:e2e:run": "cross-env PORT=8811 start-server-and-test start:mocks http://localhost:8811 \"npx cypress run\"",
     "typecheck": "tsc && tsc -p cypress",
-    "validate": "run-p \"test -- --run\" lint typecheck test:e2e:run"
+    "validate": "run-p \"test -- --run\" lint typecheck test:e2e:run",
+    "wait-build": "wait-on -t 10000 ./build/server.js ./build/index.js"
   },
   "prettier": {},
   "eslintIgnore": [
@@ -93,7 +94,8 @@
     "typescript": "^4.9.5",
     "vite": "^4.1.4",
     "vite-tsconfig-paths": "^3.6.0",
-    "vitest": "^0.29.3"
+    "vitest": "^0.29.3",
+    "wait-on": "^7.0.1"
   },
   "engines": {
     "node": ">=14"
