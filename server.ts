@@ -4,6 +4,16 @@ import compression from "compression";
 import morgan from "morgan";
 import { createRequestHandler } from "@remix-run/express";
 import prom from "@isaacs/express-prometheus-middleware";
+import { validateEnvs } from "./validate-envs";
+
+// Validate environment variables and add to global
+declare global {
+  // eslint-disable-next-line
+  var env: ReturnType<typeof validateEnvs>;
+}
+if (!global.env) {
+  global.env = validateEnvs();
+}
 
 const app = express();
 const metricsApp = express();
