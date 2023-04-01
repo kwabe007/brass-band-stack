@@ -133,7 +133,7 @@ const main = async ({ isTypeScript, packageManager, rootDirectory }) => {
     rootDirectory,
     ".github",
     "workflows",
-    "deploy.yml"
+    "test.yml"
   );
   const DOCKERFILE_PATH = path.join(rootDirectory, "Dockerfile");
   const CYPRESS_SUPPORT_PATH = path.join(rootDirectory, "cypress", "support");
