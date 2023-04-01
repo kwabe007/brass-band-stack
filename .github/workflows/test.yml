@@ -121,7 +121,7 @@ jobs:
       - name: 🌳 Cypress run
         uses: cypress-io/github-action@v5
         with:
-          start: docker-compose up -d
+          start: docker-compose up
           wait-on: "http://localhost:8080"
         env:
           PORT: "8080"
