@@ -6,11 +6,7 @@ import { createRequestHandler } from "@remix-run/express";
 import prom from "@isaacs/express-prometheus-middleware";
 import { validateEnvs } from "./validate-envs";
 
-// Validate environment variables and add to global
-declare global {
-  // eslint-disable-next-line
-  var env: ReturnType<typeof validateEnvs>;
-}
+// Property env on global is declared in globals.d.ts
 if (!global.env) {
   global.env = validateEnvs();
 }
