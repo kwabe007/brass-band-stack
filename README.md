@@ -1,6 +1,7 @@
-# Remix Blues Stack
+# Remix Brass Band Stack
 
-![The Remix Blues Stack](https://repository-images.githubusercontent.com/461012689/37d5bd8b-fa9c-4ab0-893c-f0a199d5012d)
+![The Remix Brass Band Stack](https://user-images.githubusercontent.com/10984188/229256071-7dd136a6-e536-469a-8608-583b2202038d.png)
+
 
 Learn more about [Remix Stacks](https://remix.run/stacks).
 
