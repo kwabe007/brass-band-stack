@@ -26,5 +26,8 @@
     "paths": {
       "~/*": ["../app/*"]
     }
+  },
+  "ts-node": {
+    "files": true
   }
 }
