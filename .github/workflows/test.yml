@@ -106,10 +106,10 @@ jobs:
           useLockFile: false
 
       - name: 🛠 Setup Database
-          run: npx prisma generate dev
+        run: npx prisma generate dev
 
       - name: ⚙️ Build
-          run: npm run build
+        run: npm run build
 
       - name: 🌳 Cypress run
         uses: cypress-io/github-action@v5
