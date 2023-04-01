@@ -83,8 +83,6 @@ jobs:
   cypress:
     name: ⚫️ Cypress
     runs-on: ubuntu-latest
-    env:
-      SESSION_SECRETs: cypress-S3ssIonS3creT
     steps:
       - name: 🛑 Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.11.0
@@ -107,21 +105,14 @@ jobs:
         with:
           useLockFile: false
 
-#      - name: 🐳 Docker compose
-#        run: docker-compose up -d
-#        env:
-#          SESSION_SECRETs: "r4nDom-S3ssion-s3creT"
-
-#      - name: 🛠 Setup Database
-#        run: npx prisma migrate reset --force
-
-#      - name: ⚙️ Build
-#        run: npm run build
+      - name: 🐳 Docker compose
+        run: docker-compose up
+        env:
+          SESSION_SECRETs: "r4nDom-S3ssion-s3creT"
 
       - name: 🌳 Cypress run
         uses: cypress-io/github-action@v5
         with:
-          start: docker-compose up
           wait-on: "http://localhost:8080"
         env:
           PORT: "8080"
