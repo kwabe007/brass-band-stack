@@ -11,3 +11,6 @@ node_modules
 /app/styles/tailwind.css
 
 .idea
+
+/prisma/data.db
+/prisma/data.db-journal
