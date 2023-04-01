@@ -83,6 +83,8 @@ jobs:
   cypress:
     name: ⚫️ Cypress
     runs-on: ubuntu-latest
+    env:
+      SESSION_SECRETs: cypress-S3ssIonS3creT
     steps:
       - name: 🛑 Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.11.0
@@ -90,35 +92,36 @@ jobs:
       - name: ⬇️ Checkout repo
         uses: actions/checkout@v3
 
-      - name: 🏄 Copy test env vars
-        run: cp .env.production.example .env
+      - name: 🏄 Copy env vars
+        run: |
+          cp .env.example .env
+          cp .container.env.example .container.env
 
-      - name: ⎔ Setup node
-        uses: actions/setup-node@v3
-        with:
-          node-version: 16
+#      - name: ⎔ Setup node
+#        uses: actions/setup-node@v3
+#        with:
+#          node-version: 18
+#
+#      - name: 📥 Download deps
+#        uses: bahmutov/npm-install@v1
+#        with:
+#          useLockFile: false
 
-      - name: 📥 Download deps
-        uses: bahmutov/npm-install@v1
-        with:
-          useLockFile: false
+#      - name: 🐳 Docker compose
+#        run: docker-compose up -d
+#        env:
+#          SESSION_SECRETs: "r4nDom-S3ssion-s3creT"
 
-      - name: 🐳 Docker compose
-        # the sleep is just there to give time for postgres to get started
-        run: docker-compose up -d
-        env:
-          SESSION_SECRET: "r4nDom-S3ssion-s3creT"
+#      - name: 🛠 Setup Database
+#        run: npx prisma migrate reset --force
 
-      - name: 🛠 Setup Database
-        run: npx prisma migrate reset --force
-
-      - name: ⚙️ Build
-        run: npm run build
+#      - name: ⚙️ Build
+#        run: npm run build
 
       - name: 🌳 Cypress run
         uses: cypress-io/github-action@v5
         with:
-          start: npm run start:staging
-          wait-on: "http://localhost:8811"
+          start: docker-compose up -d
+          wait-on: "http://localhost:8080"
         env:
-          PORT: "8811"
+          PORT: "8080"
