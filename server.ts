@@ -4,12 +4,6 @@ import compression from "compression";
 import morgan from "morgan";
 import { createRequestHandler } from "@remix-run/express";
 import prom from "@isaacs/express-prometheus-middleware";
-import { validateEnvs } from "./validate-envs";
-
-// Property env on global is declared in globals.d.ts
-if (!global.env) {
-  global.env = validateEnvs();
-}
 
 const app = express();
 const metricsApp = express();

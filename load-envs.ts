@@ -1,5 +1,8 @@
 import type {Spec, ValidatorSpec} from "envalid";
 import { cleanEnv, EnvError, makeValidator } from "envalid";
+import * as dotenv from 'dotenv';
+
+dotenv.config();
 
 const pass = makeValidator((input: string) => {
   return input;
@@ -8,7 +11,7 @@ const pass = makeValidator((input: string) => {
 /**
  * Adds check for empty string over regular str validator.
  */
-export const strDef = makeValidator<string>((input: string) => {
+const strDef = makeValidator<string>((input: string) => {
   if (typeof input === 'string' && input) return input
   throw new EnvError(`Invalid or empty string value: "${input}"`)
 })
@@ -25,10 +28,21 @@ function requiredIf<T>(condition: boolean, validator: (spec?: Spec<T> | undefine
   }
 }
 
-export function validateEnvs() {
+function validateEnvs() {
   return cleanEnv(process.env, {
     NODE_ENV: strDef({choices: ["development", "test", "production", "staging"] as const}),
     DATABASE_URL: strDef(),
     SESSION_SECRET: strDef(),
   });
 }
+
+type Envs = ReturnType<typeof validateEnvs>;
+
+if (!global.env) {
+  global.env = validateEnvs();
+}
+
+const env = global.env;
+
+export { env }
+export type { Envs }
