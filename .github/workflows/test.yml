@@ -97,15 +97,15 @@ jobs:
           cp .env.example .env
           cp .container.env.example .container.env
 
-#      - name: ⎔ Setup node
-#        uses: actions/setup-node@v3
-#        with:
-#          node-version: 18
+      - name: ⎔ Setup node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
 #
-#      - name: 📥 Download deps
-#        uses: bahmutov/npm-install@v1
-#        with:
-#          useLockFile: false
+      - name: 📥 Download deps
+        uses: bahmutov/npm-install@v1
+        with:
+          useLockFile: false
 
 #      - name: 🐳 Docker compose
 #        run: docker-compose up -d
