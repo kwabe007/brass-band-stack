@@ -28,7 +28,7 @@ function requiredIf<T>(condition: boolean, validator: (spec?: Spec<T> | undefine
   }
 }
 
-function validateEnvs() {
+function loadEnvs() {
   return cleanEnv(process.env, {
     NODE_ENV: strDef({choices: ["development", "test", "production", "staging"] as const}),
     DATABASE_URL: strDef(),
@@ -36,10 +36,10 @@ function validateEnvs() {
   });
 }
 
-type Envs = ReturnType<typeof validateEnvs>;
+type Envs = ReturnType<typeof loadEnvs>;
 
 if (!global.env) {
-  global.env = validateEnvs();
+  global.env = loadEnvs();
 }
 
 const env = global.env;

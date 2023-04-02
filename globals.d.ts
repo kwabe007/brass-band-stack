@@ -1,5 +1,5 @@
-import type { validateEnvs } from "./validate-envs";
+import type { Envs } from "./load-envs";
 
 declare global {
-  var env: ReturnType<typeof validateEnvs>;
+  var env: Envs;
 }

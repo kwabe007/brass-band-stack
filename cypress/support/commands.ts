@@ -49,7 +49,7 @@ function login({
 } = {}) {
   cy.then(() => ({ email })).as("user");
   cy.exec(
-    `npx ts-node --require tsconfig-paths/register ./cypress/support/create-user.ts "${email}"`
+    `npm run test:e2e:command ./cypress/support/create-user.ts "${email}"`
   ).then(({ stdout }) => {
     const cookieValue = stdout
       .replace(/.*<cookie>(?<cookieValue>.*)<\/cookie>.*/s, "$<cookieValue>")
@@ -75,7 +75,7 @@ function cleanupUser({ email }: { email?: string } = {}) {
 
 function deleteUserByEmail(email: string) {
   cy.exec(
-    `npx ts-node --require tsconfig-paths/register ./cypress/support/delete-user.ts "${email}"`
+    `npm run test:e2e:command ./cypress/support/delete-user.ts "some@example.com"`
   );
   cy.clearCookie("__session");
 }
