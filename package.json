@@ -8,6 +8,7 @@
     "build:envfile": "esbuild --platform=node --format=cjs ./load-envs.ts --outfile=build/load-envs.js",
     "build:remix": "remix build",
     "build:server": "esbuild --platform=node --format=cjs ./server.ts --outdir=build --bundle",
+    "create-admin": "node scripts/create-admin-user.js",
     "dev": "cross-env NODE_ENV=development run-p dev:* build:envfile",
     "dev:build": "npm run build:server -- --watch",
     "dev:css": "npm run generate:css -- --watch",
