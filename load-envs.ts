@@ -1,8 +1,5 @@
 import type {Spec, ValidatorSpec} from "envalid";
 import { cleanEnv, EnvError, makeValidator } from "envalid";
-import * as dotenv from 'dotenv';
-
-dotenv.config();
 
 const pass = makeValidator((input: string) => {
   return input;
