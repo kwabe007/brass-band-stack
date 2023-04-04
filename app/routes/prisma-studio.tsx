@@ -25,9 +25,13 @@ async function ensurePrismaStudioIsRunning() {
   );
 
   // Kill prisma process when main process dies
-  process.on("exit", () => __prismaSubprocess?.kill());
-  process.on("SIGINT", () => __prismaSubprocess?.kill());
-  process.on("SIGTERM", () => __prismaSubprocess?.kill());
+  const cleanUp = () => {
+    __prismaSubprocess?.kill();
+    process.exit();
+  }
+  process.on("exit", cleanUp);
+  process.on("SIGINT", cleanUp);
+  process.on("SIGTERM", cleanUp);
 
   // Wait for prisma server to get ready
   const opts: WaitOnOptions = {
