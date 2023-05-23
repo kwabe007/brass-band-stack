@@ -9,11 +9,11 @@ import {
   ScrollRestoration,
 } from "@remix-run/react";
 
-import tailwindStylesheetUrl from "~/styles/build/tailwind.css";
+import tailwindStyles from "~/tailwind.css";
 import { getUser } from "~/session.server";
 
 export const links: LinksFunction = () => [
-  { rel: "stylesheet", href: tailwindStylesheetUrl },
+  { rel: "stylesheet", href: tailwindStyles },
 ];
 
 export const loader = async ({ request }: LoaderArgs) => {
