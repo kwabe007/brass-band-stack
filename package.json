@@ -14,6 +14,7 @@
     "dev:server": "npm run wait-build && node -r ./mocks -r dotenv/config -r ./build/load-envs.js ./build/server.js",
     "format": "prettier --write .",
     "lint": "eslint --cache --cache-location ./node_modules/.cache/eslint .",
+    "postinstall": "remix-esbuild-override",
     "node-rm": "node scripts/node-rm.js",
     "start": "cross-env NODE_ENV=production node -r ./build/load-envs.js ./build/server.js",
     "start:staging": "cross-env NODE_ENV=production node -r ./mocks -r dotenv/config -r ./build/load-envs.js ./build/server.js",
