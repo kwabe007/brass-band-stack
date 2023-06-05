@@ -6,3 +6,8 @@ services:
     build: .
     ports:
       - "${HOST_PORT}:3000"
+    volumes:
+      - data:/data
+
+volumes:
+  data:
