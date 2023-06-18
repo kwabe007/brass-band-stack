@@ -1,11 +1,15 @@
 version: "3.9"
 services:
   web:
-    env_file:
-      - .container.env
     build: .
+    env_file:
+      - .env
+    # Override values in .env
+    environment:
+      - DATABASE_URL=file:/data/sqlite.db
+      - PORT=${CONTAINER_PORT}
     ports:
-      - "${HOST_PORT}:3000"
+      - "${CONTAINER_PORT}:${CONTAINER_PORT}"
     volumes:
       - data:/data
 

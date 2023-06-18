@@ -1,6 +1,7 @@
 FROM node:18-bullseye-slim as base
 
 ENV NODE_ENV="production"
+ENV DATABASE_URL=file:/data/sqlite.db
 
 # Install openssl for Prisma
 RUN apt-get update && apt-get install -y openssl sqlite3
@@ -31,8 +32,6 @@ FROM base
 RUN echo "#!/bin/sh\nset -x\nsqlite3 \$DATABASE_URL" > /usr/local/bin/database-cli && chmod +x /usr/local/bin/database-cli
 
 WORKDIR /remix-app
-
-ENV PORT="3000"
 
 COPY --from=build /remix-app/node_modules ./node_modules
 COPY --from=build /remix-app/build ./build

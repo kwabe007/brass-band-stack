@@ -83,6 +83,8 @@ jobs:
   cypress:
     name: ⚫️ Cypress
     runs-on: ubuntu-latest
+    env:
+      SESSION_SECRET: supers3cr3t
     steps:
       - name: 🛑 Cancel Previous Runs
         uses: styfle/cancel-workflow-action@0.11.0
@@ -93,13 +95,12 @@ jobs:
       - name: 🏄 Copy env vars
         run: |
           cp .env.example .env
-          cp .container.env.example .container.env
 
       - name: ⎔ Setup node
         uses: actions/setup-node@v3
         with:
           node-version: 18
-#
+      #
       - name: 📥 Download deps
         uses: bahmutov/npm-install@v1
         with:

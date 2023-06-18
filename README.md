@@ -59,14 +59,12 @@ This is a simple app with only register, login and logout features.  It's a star
 
   > **Note:** This Remix Stack is not opinionated when it comes to hosting providers and lets you decide where to deploy.
 
-The app is dockerized and a Compose file is provided to get the app up and running. But prior to that, you'll need to do a few things: 
+To start the app in production:
 
-- Make sure that the necessary environment variables are set in a file called __.container.env__ in the project root folder. The variables defined here will be
-passed to the Docker container running the app. You can use [.container.env.example](.container.env.example) as a reference.
+- Make sure that the necessary environment variables are set in the `.env` file at the root. If it doesn't exist you can create it.
+See [.env.example](.env.example) for reference of which environment variables are needed.
 
-- Set the `HOST_PORT` environment variable in __.env__ to whatever port value you want to use on the Docker host for the app.
-
-- You can now start the service:
+- Start the service:
 
   ```sh
   docker-compose up -d
