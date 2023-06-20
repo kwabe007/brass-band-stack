@@ -9,7 +9,7 @@ services:
       - DATABASE_URL=file:/data/sqlite.db
       - PORT=${CONTAINER_PORT}
     ports:
-      - "${CONTAINER_PORT}:${CONTAINER_PORT}"
+      - "127.0.0.1:${CONTAINER_PORT}:${CONTAINER_PORT}"
     volumes:
       - data:/data
 
